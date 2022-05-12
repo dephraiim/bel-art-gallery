@@ -1,11 +1,15 @@
 import Head from "next/head";
 import useSWR from "swr";
+import { useRouter } from "next/router";
 import Image from "next/image";
 import { useState } from "react";
 import styles from "../styles/Home.module.css";
 
-export default function Home({ posts }) {
+export default function Home() {
   const fetcher = (url) => fetch(url).then((r) => r.json());
+
+  const router = useRouter();
+
   const [searchKeyword, setSearchKeyword] = useState("");
 
   const { data, error } = useSWR(
@@ -13,7 +17,12 @@ export default function Home({ posts }) {
     fetcher
   );
 
-  console.log(data);
+  const routeToImage = (data) => {
+    router.push({
+      pathname: "/image",
+      query: { data: JSON.stringify(data) },
+    });
+  };
 
   return (
     <div className={styles.container}>
@@ -34,7 +43,7 @@ export default function Home({ posts }) {
       {data ? (
         <div>
           {data.hits.map((post) => (
-            <div key={post.id}>
+            <div key={post.id} onClick={() => routeToImage(post)}>
               <Image
                 src={post.previewURL}
                 alt={post.tags}
