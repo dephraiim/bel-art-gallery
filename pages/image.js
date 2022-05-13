@@ -14,7 +14,7 @@ export default function ImagePage() {
   return (
     <main>
       <h1>{imageAlt}</h1>
-      <Image src={imageSrc} alt={imageAlt} height={imageHeight} width={imageWidth} />
+      <Image src={imageSrc} alt={imageAlt} height={imageHeight} width={imageWidth} loading="lazy" />
 
       <div className="link">
         <Link href="/">
